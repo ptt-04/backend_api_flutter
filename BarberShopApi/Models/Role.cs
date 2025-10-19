@@ -7,3 +7,4 @@ namespace BarberShopApi.Models
         Admin = 3        // Quản trị viên
     }
 }
+

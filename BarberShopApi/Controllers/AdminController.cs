@@ -24,7 +24,6 @@ namespace BarberShopApi.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
             var users = await _context.Users
-                .Where(u => u.IsActive)
                 .Select(u => new UserDto
                 {
                     Id = u.Id,
@@ -108,6 +107,44 @@ namespace BarberShopApi.Controllers
             return Ok(new { message = "Cập nhật role thành công" });
         }
 
+        [HttpPut("users/{id}")]
+        public async Task<ActionResult<UserDto>> UpdateUser(int id, UpdateUserDto updateUserDto)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound(new { message = "Không tìm thấy người dùng" });
+            }
+
+            // Update user information
+            user.FirstName = updateUserDto.FirstName;
+            user.LastName = updateUserDto.LastName;
+            user.PhoneNumber = updateUserDto.PhoneNumber;
+            user.DateOfBirth = updateUserDto.DateOfBirth;
+            user.Gender = updateUserDto.Gender;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                Gender = user.Gender,
+                ProfileImageUrl = user.ProfileImageUrl,
+                LoyaltyPoints = user.LoyaltyPoints,
+                CreatedAt = user.CreatedAt,
+                Role = user.Role
+            };
+
+            return Ok(userDto);
+        }
+
         [HttpDelete("users/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
@@ -117,10 +154,8 @@ namespace BarberShopApi.Controllers
                 return NotFound(new { message = "Không tìm thấy người dùng" });
             }
 
-            // Soft delete
-            user.IsActive = false;
-            user.UpdatedAt = DateTime.UtcNow;
-
+            // Hard delete - xóa thật khỏi database
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Xóa người dùng thành công" });
@@ -136,9 +171,7 @@ namespace BarberShopApi.Controllers
                 var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
                 // Tổng người dùng
-                var totalUsers = await _context.Users
-                    .Where(u => u.IsActive)
-                    .CountAsync();
+                var totalUsers = await _context.Users.CountAsync();
 
                 // Tổng sản phẩm
                 var totalProducts = await _context.Products.CountAsync();
@@ -156,15 +189,15 @@ namespace BarberShopApi.Controllers
 
                 // Thống kê theo role
                 var customersCount = await _context.Users
-                    .Where(u => u.IsActive && u.Role == Role.Customer)
+                    .Where(u => u.Role == Role.Customer)
                     .CountAsync();
 
                 var barbersCount = await _context.Users
-                    .Where(u => u.IsActive && u.Role == Role.Barber)
+                    .Where(u => u.Role == Role.Barber)
                     .CountAsync();
 
                 var adminsCount = await _context.Users
-                    .Where(u => u.IsActive && u.Role == Role.Admin)
+                    .Where(u => u.Role == Role.Admin)
                     .CountAsync();
 
                 // Thống kê booking theo trạng thái
@@ -223,6 +256,15 @@ namespace BarberShopApi.Controllers
     public class UpdateRoleDto
     {
         public Role Role { get; set; }
+    }
+
+    public class UpdateUserDto
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public DateTime DateOfBirth { get; set; }
+        public string Gender { get; set; } = string.Empty;
     }
 
     public class DashboardStatsDto

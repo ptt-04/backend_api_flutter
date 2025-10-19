@@ -115,10 +115,10 @@ namespace BarberShopApi.Services
                 return false;
             }
 
-            product.IsActive = false;
-            product.UpdatedAt = DateTime.UtcNow;
-
+            // Hard delete - xóa thật khỏi database
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            
             return true;
         }
 
@@ -174,10 +174,10 @@ namespace BarberShopApi.Services
                 return false;
             }
 
-            category.IsActive = false;
-            category.UpdatedAt = DateTime.UtcNow;
-
+            // Hard delete - xóa thật khỏi database
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+            
             return true;
         }
 
@@ -214,4 +214,5 @@ namespace BarberShopApi.Services
         }
     }
 }
+
 
