@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using BarberShopApi.DTOs;
 using BarberShopApi.Services;
 
@@ -56,6 +57,7 @@ namespace BarberShopApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<VoucherDto>> CreateVoucher(CreateVoucherDto createVoucherDto)
         {
             try
@@ -123,7 +125,98 @@ namespace BarberShopApi.Controllers
                 return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
             }
         }
+
+        // Admin endpoints
+        [HttpGet("admin/all")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult<IEnumerable<VoucherDto>>> GetAllVouchers()
+        {
+            try
+            {
+                var vouchers = await _voucherService.GetAllVouchersAsync();
+                return Ok(vouchers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
+            }
+        }
+
+        [HttpGet("admin/{id}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult<VoucherDto>> GetVoucherById(int id)
+        {
+            try
+            {
+                var voucher = await _voucherService.GetVoucherByIdAsync(id);
+                if (voucher == null)
+                {
+                    return NotFound(new { message = "Không tìm thấy voucher" });
+                }
+                return Ok(voucher);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
+            }
+        }
+
+        [HttpPut("admin/{id}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult<VoucherDto>> UpdateVoucher(int id, CreateVoucherDto updateVoucherDto)
+        {
+            try
+            {
+                var voucher = await _voucherService.UpdateVoucherAsync(id, updateVoucherDto);
+                if (voucher == null)
+                {
+                    return NotFound(new { message = "Không tìm thấy voucher" });
+                }
+                return Ok(voucher);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
+            }
+        }
+
+        [HttpDelete("admin/{id}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult> DeleteVoucher(int id)
+        {
+            try
+            {
+                var result = await _voucherService.DeleteVoucherAsync(id);
+                if (!result)
+                {
+                    return NotFound(new { message = "Không tìm thấy voucher" });
+                }
+                return Ok(new { message = "Đã xóa voucher thành công" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
+            }
+        }
+
+        [HttpGet("admin/user-vouchers")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<ActionResult<IEnumerable<UserVoucherDto>>> GetAllUserVouchers()
+        {
+            try
+            {
+                var userVouchers = await _voucherService.GetAllUserVouchersAsync();
+                return Ok(userVouchers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi server: " + ex.Message });
+            }
+        }
     }
 }
+
+
+
 
 

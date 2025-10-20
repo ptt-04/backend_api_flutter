@@ -31,7 +31,6 @@ namespace BarberShopApi.Data
         public DbSet<UserVoucher> UserVouchers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
-        public DbSet<HairStyleSuggestion> HairStyleSuggestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -164,15 +163,6 @@ namespace BarberShopApi.Data
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // HairStyleSuggestion configuration
-            modelBuilder.Entity<HairStyleSuggestion>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.HasOne(e => e.User)
-                    .WithMany()
-                    .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
 
             // Seed data
             SeedData(modelBuilder);

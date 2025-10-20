@@ -25,6 +25,9 @@ namespace BarberShopApi.Models
         public int CategoryId { get; set; }
         
         public string? ImageUrl { get; set; }
+
+    // JSON string storing array of image URLs
+    public string? ImageGallery { get; set; }
         
         public string? Brand { get; set; }
         

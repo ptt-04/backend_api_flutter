@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BCrypt.Net;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +53,6 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
-builder.Services.AddScoped<IAIService, AIService>();
 
 // Add SignalR
 builder.Services.AddSignalR();
@@ -62,9 +62,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutterApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
+        policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8080", "http://127.0.0.1:8080")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -99,6 +100,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// Respect reverse proxy headers (Conveyor, Nginx, etc.) so Request.Scheme/Host match external URL
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto |
+        ForwardedHeaders.XForwardedHost;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -111,7 +123,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Apply forwarded headers before other middlewares
+app.UseForwardedHeaders();
+
 app.UseHttpsRedirection();
+
+// Enable static files for uploaded images
+app.UseStaticFiles();
 
 app.UseCors("AllowFlutterApp");
 
@@ -125,7 +143,7 @@ app.MapHub<ChatHub>("/chathub");
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BarberShopDbContext>();
-    context.Database.EnsureCreated();
+    context.Database.Migrate();
     
     // Create admin user if not exists
     if (!context.Users.Any(u => u.Username == "admin"))

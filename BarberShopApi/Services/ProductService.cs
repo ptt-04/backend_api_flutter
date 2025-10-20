@@ -67,6 +67,9 @@ namespace BarberShopApi.Services
                 StockQuantity = createProductDto.StockQuantity,
                 CategoryId = createProductDto.CategoryId,
                 ImageUrl = createProductDto.ImageUrl,
+                ImageGallery = (createProductDto.ImageGallery != null && createProductDto.ImageGallery.Count > 0)
+                    ? System.Text.Json.JsonSerializer.Serialize(createProductDto.ImageGallery)
+                    : null,
                 Brand = createProductDto.Brand,
                 Size = createProductDto.Size,
                 Color = createProductDto.Color,
@@ -96,6 +99,9 @@ namespace BarberShopApi.Services
             product.StockQuantity = updateProductDto.StockQuantity;
             product.CategoryId = updateProductDto.CategoryId;
             product.ImageUrl = updateProductDto.ImageUrl;
+            product.ImageGallery = (updateProductDto.ImageGallery != null && updateProductDto.ImageGallery.Count > 0)
+                ? System.Text.Json.JsonSerializer.Serialize(updateProductDto.ImageGallery)
+                : null;
             product.Brand = updateProductDto.Brand;
             product.Size = updateProductDto.Size;
             product.Color = updateProductDto.Color;
@@ -183,6 +189,19 @@ namespace BarberShopApi.Services
 
         private ProductDto MapToProductDto(Product product)
         {
+            List<string> imageGallery = new();
+            if (!string.IsNullOrWhiteSpace(product.ImageGallery))
+            {
+                try
+                {
+                    var parsed = System.Text.Json.JsonSerializer.Deserialize<List<string>>(product.ImageGallery!);
+                    if (parsed != null)
+                    {
+                        imageGallery = parsed;
+                    }
+                }
+                catch { /* ignore parse error */ }
+            }
             return new ProductDto
             {
                 Id = product.Id,
@@ -193,6 +212,7 @@ namespace BarberShopApi.Services
                 StockQuantity = product.StockQuantity,
                 CategoryId = product.CategoryId,
                 ImageUrl = product.ImageUrl,
+                ImageGallery = imageGallery,
                 Brand = product.Brand,
                 Size = product.Size,
                 Color = product.Color,

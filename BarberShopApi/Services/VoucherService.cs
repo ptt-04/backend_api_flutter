@@ -12,6 +12,13 @@ namespace BarberShopApi.Services
         Task<VoucherDto?> CreateVoucherAsync(CreateVoucherDto createVoucherDto);
         Task<bool> UseVoucherAsync(int userId, int voucherId, int? orderId = null);
         Task<bool> AssignVoucherToUserAsync(int userId, int voucherId);
+        
+        // Admin methods
+        Task<IEnumerable<VoucherDto>> GetAllVouchersAsync();
+        Task<VoucherDto?> GetVoucherByIdAsync(int id);
+        Task<VoucherDto?> UpdateVoucherAsync(int id, CreateVoucherDto updateVoucherDto);
+        Task<bool> DeleteVoucherAsync(int id);
+        Task<IEnumerable<UserVoucherDto>> GetAllUserVouchersAsync();
     }
 
     public class VoucherService : IVoucherService
@@ -167,7 +174,78 @@ namespace BarberShopApi.Services
                 Voucher = MapToVoucherDto(userVoucher.Voucher)
             };
         }
+
+        // Admin methods implementation
+        public async Task<IEnumerable<VoucherDto>> GetAllVouchersAsync()
+        {
+            var vouchers = await _context.Vouchers
+                .OrderByDescending(v => v.CreatedAt)
+                .ToListAsync();
+
+            Console.WriteLine($"Found {vouchers.Count} vouchers in database");
+            foreach (var voucher in vouchers)
+            {
+                Console.WriteLine($"Voucher: {voucher.Name} (IsActive: {voucher.IsActive})");
+            }
+
+            return vouchers.Select(MapToVoucherDto);
+        }
+
+        public async Task<VoucherDto?> GetVoucherByIdAsync(int id)
+        {
+            var voucher = await _context.Vouchers.FindAsync(id);
+            return voucher != null ? MapToVoucherDto(voucher) : null;
+        }
+
+        public async Task<VoucherDto?> UpdateVoucherAsync(int id, CreateVoucherDto updateVoucherDto)
+        {
+            var voucher = await _context.Vouchers.FindAsync(id);
+            if (voucher == null) return null;
+
+            voucher.Code = updateVoucherDto.Code;
+            voucher.Name = updateVoucherDto.Name;
+            voucher.Description = updateVoucherDto.Description;
+            voucher.DiscountAmount = updateVoucherDto.DiscountAmount;
+            voucher.DiscountType = updateVoucherDto.DiscountType;
+            voucher.MinimumOrderAmount = updateVoucherDto.MinimumOrderAmount;
+            voucher.MaxUsageCount = updateVoucherDto.MaxUsageCount;
+            voucher.ValidFrom = updateVoucherDto.ValidFrom;
+            voucher.ValidTo = updateVoucherDto.ValidTo;
+            voucher.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return MapToVoucherDto(voucher);
+        }
+
+        public async Task<bool> DeleteVoucherAsync(int id)
+        {
+            var voucher = await _context.Vouchers.FindAsync(id);
+            if (voucher == null) return false;
+
+            _context.Vouchers.Remove(voucher);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<UserVoucherDto>> GetAllUserVouchersAsync()
+        {
+            var userVouchers = await _context.UserVouchers
+                .Include(uv => uv.Voucher)
+                .OrderByDescending(uv => uv.CreatedAt)
+                .ToListAsync();
+
+            Console.WriteLine($"Found {userVouchers.Count} user vouchers in database");
+            foreach (var userVoucher in userVouchers)
+            {
+                Console.WriteLine($"UserVoucher: User {userVoucher.UserId} has voucher {userVoucher.Voucher.Name} (Used: {userVoucher.UsedAt != null})");
+            }
+
+            return userVouchers.Select(MapToUserVoucherDto);
+        }
     }
 }
+
+
+
 
 

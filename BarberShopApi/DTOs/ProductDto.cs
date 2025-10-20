@@ -12,6 +12,8 @@ namespace BarberShopApi.DTOs
         public int StockQuantity { get; set; }
         public int CategoryId { get; set; }
         public string? ImageUrl { get; set; }
+        // Danh sách URL ảnh (tối đa 5) phục vụ gallery
+        public List<string> ImageGallery { get; set; } = new();
         public string? Brand { get; set; }
         public string? Size { get; set; }
         public string? Color { get; set; }
@@ -40,6 +42,8 @@ namespace BarberShopApi.DTOs
         public int CategoryId { get; set; }
         
         public string? ImageUrl { get; set; }
+        // Cho phép truyền kèm tối đa 5 URL ảnh dạng gallery
+        public List<string>? ImageGallery { get; set; }
         
         public string? Brand { get; set; }
         
@@ -71,5 +75,8 @@ namespace BarberShopApi.DTOs
         public string? ImageUrl { get; set; }
     }
 }
+
+
+
 
 

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using BarberShopApi.Data;
 using BarberShopApi.Models;
-using BarberShopApi.Services;
 using System.Security.Claims;
 
 namespace BarberShopApi.Hubs
@@ -9,12 +8,10 @@ namespace BarberShopApi.Hubs
     public class ChatHub : Hub
     {
         private readonly BarberShopDbContext _context;
-        private readonly IAIService _aiService;
 
-        public ChatHub(BarberShopDbContext context, IAIService aiService)
+        public ChatHub(BarberShopDbContext context)
         {
             _context = context;
-            _aiService = aiService;
         }
 
         public override async Task OnConnectedAsync()
@@ -70,14 +67,14 @@ namespace BarberShopApi.Hubs
                     CreatedAt = userMessage.CreatedAt
                 });
 
-                // Get AI response
-                var aiResponse = await _aiService.GetChatbotResponseAsync(message, userId.Value);
+                // Simple response without AI
+                var response = "Xin chào! Tôi là nhân viên hỗ trợ của BarberShop. Bạn cần hỗ trợ gì?";
 
-                // Send AI response to client
+                // Send response to client
                 await Clients.Group($"user_{userId}").SendAsync("ReceiveMessage", new
                 {
-                    Id = 0, // AI response doesn't have ID yet
-                    Message = aiResponse,
+                    Id = 0,
+                    Message = response,
                     IsFromUser = false,
                     CreatedAt = DateTime.UtcNow
                 });

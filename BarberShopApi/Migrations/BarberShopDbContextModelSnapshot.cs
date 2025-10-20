@@ -111,38 +111,38 @@ namespace BarberShopApi.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6386),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4300),
                             Description = "Các loại dầu gội chuyên nghiệp",
                             IsActive = true,
                             Name = "Dầu Gội",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(5680)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(3355)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6530),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4503),
                             Description = "Dầu xả và kem ủ tóc",
                             IsActive = true,
                             Name = "Dầu Xả",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6529)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4501)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6532),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4504),
                             Description = "Gel, wax, pomade tạo kiểu tóc",
                             IsActive = true,
                             Name = "Sản Phẩm Tạo Kiểu",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6531)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4504)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6533),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4506),
                             Description = "Kéo, máy cắt, dao cạo",
                             IsActive = true,
                             Name = "Dụng Cụ Cắt Tóc",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 897, DateTimeKind.Utc).AddTicks(6532)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 632, DateTimeKind.Utc).AddTicks(4505)
                         });
                 });
 
@@ -348,6 +348,9 @@ namespace BarberShopApi.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("ImageGallery")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -384,37 +387,37 @@ namespace BarberShopApi.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(6411),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(8373),
                             Description = "Dầu gội Pantene Pro-V cho tóc mềm mượt",
                             IsActive = true,
                             Name = "Dầu Gội Pantene",
                             Price = 120000m,
                             StockQuantity = 50,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(5516)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(7498)
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(6675),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(8501),
                             Description = "Gel tạo kiểu tóc nam cao cấp",
                             IsActive = true,
                             Name = "Gel Tạo Kiểu Gatsby",
                             Price = 80000m,
                             StockQuantity = 30,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(6673)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(8500)
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 4,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(6677),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(8503),
                             Description = "Kéo cắt tóc chất lượng cao",
                             IsActive = true,
                             Name = "Kéo Cắt Tóc Chuyên Nghiệp",
                             Price = 500000m,
                             StockQuantity = 10,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(6676)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(8502)
                         });
                 });
 
@@ -499,57 +502,57 @@ namespace BarberShopApi.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4063),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5761),
                             Description = "Cắt tóc nam theo phong cách hiện đại",
                             DurationMinutes = 30,
                             IsActive = true,
                             Name = "Cắt Tóc Nam",
                             Price = 150000m,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(3017)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(4642)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4206),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5891),
                             Description = "Cắt tóc nữ theo xu hướng mới nhất",
                             DurationMinutes = 45,
                             IsActive = true,
                             Name = "Cắt Tóc Nữ",
                             Price = 200000m,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4203)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5889)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4208),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5892),
                             Description = "Gội đầu và massage da đầu",
                             DurationMinutes = 20,
                             IsActive = true,
                             Name = "Gội Đầu",
                             Price = 50000m,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4207)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5892)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4210),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5894),
                             Description = "Uốn tóc tạo kiểu",
                             DurationMinutes = 120,
                             IsActive = true,
                             Name = "Uốn Tóc",
                             Price = 500000m,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4209)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5893)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4212),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5896),
                             Description = "Nhuộm tóc màu sắc đa dạng",
                             DurationMinutes = 90,
                             IsActive = true,
                             Name = "Nhuộm Tóc",
                             Price = 400000m,
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(4211)
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(5895)
                         });
                 });
 
@@ -729,7 +732,7 @@ namespace BarberShopApi.Migrations
                         {
                             Id = 1,
                             Code = "WELCOME10",
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9843),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(991),
                             Description = "Áp dụng cho đơn hàng đầu tiên",
                             DiscountAmount = 10m,
                             DiscountType = "Percentage",
@@ -737,16 +740,16 @@ namespace BarberShopApi.Migrations
                             MaxUsageCount = 1000,
                             MinimumOrderAmount = 100000m,
                             Name = "Giảm 10% cho khách hàng mới",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(7922),
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 633, DateTimeKind.Utc).AddTicks(9409),
                             UsedCount = 0,
-                            ValidFrom = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9320),
-                            ValidTo = new DateTime(2026, 4, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9513)
+                            ValidFrom = new DateTime(2025, 10, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(460),
+                            ValidTo = new DateTime(2026, 4, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(575)
                         },
                         new
                         {
                             Id = 2,
                             Code = "SAVE50K",
-                            CreatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9981),
+                            CreatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(1119),
                             Description = "Áp dụng cho đơn hàng từ 300k",
                             DiscountAmount = 50000m,
                             DiscountType = "FixedAmount",
@@ -754,10 +757,10 @@ namespace BarberShopApi.Migrations
                             MaxUsageCount = 500,
                             MinimumOrderAmount = 300000m,
                             Name = "Giảm 50k cho đơn hàng từ 300k",
-                            UpdatedAt = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9974),
+                            UpdatedAt = new DateTime(2025, 10, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(1112),
                             UsedCount = 0,
-                            ValidFrom = new DateTime(2025, 10, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9977),
-                            ValidTo = new DateTime(2026, 1, 17, 15, 16, 13, 898, DateTimeKind.Utc).AddTicks(9977)
+                            ValidFrom = new DateTime(2025, 10, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(1115),
+                            ValidTo = new DateTime(2026, 1, 20, 13, 57, 57, 634, DateTimeKind.Utc).AddTicks(1116)
                         });
                 });
 
