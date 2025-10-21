@@ -168,4 +168,6 @@ C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\o
 C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\obj\Debug\net9.0\BarberShopApi.genruntimeconfig.cache
 C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\obj\Debug\net9.0\ref\BarberShopApi.dll
 C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\bin\Debug\net9.0\BarberShopApi.staticwebassets.runtime.json
+C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\bin\Debug\net9.0\login.json
+C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\bin\Debug\net9.0\register.json
 C:\Users\USER\OneDrive\Máy tính\.vs\api_test\.vs\BarberShopApi\BarberShopApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

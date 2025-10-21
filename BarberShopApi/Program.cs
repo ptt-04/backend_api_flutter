@@ -53,6 +53,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 // Add SignalR
 builder.Services.AddSignalR();
@@ -62,7 +64,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutterApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8080", "http://127.0.0.1:8080")
+        policy.WithOrigins(
+                "http://localhost:3000", 
+                "http://127.0.0.1:3000", 
+                "http://localhost:8080", 
+                "http://127.0.0.1:8080",
+                "https://lastmintski41.conveyor.cloud",
+                "https://foundaquaboard57.conveyor.cloud"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

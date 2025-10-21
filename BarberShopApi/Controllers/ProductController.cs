@@ -177,6 +177,8 @@ namespace BarberShopApi.Controllers
 
         [HttpPost("upload-image")]
         [Authorize(Policy = "AdminOnly")]
+        [Consumes("multipart/form-data")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<string>> UploadProductImage([FromForm] IFormFile file)
         {
             try

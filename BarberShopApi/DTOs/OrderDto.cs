@@ -2,40 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BarberShopApi.DTOs
 {
-    public class CreateOrderDto
-    {
-        [Required]
-        public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
-        
-        [Required]
-        public string PaymentMethod { get; set; } = string.Empty; // VNPay, Cash, Momo, ZaloPay
-        
-        [Required]
-        public string DeliveryMethod { get; set; } = string.Empty; // Pickup, Delivery
-        
-        public int? BranchId { get; set; } // Required if DeliveryMethod = Pickup
-        
-        public string? DeliveryAddress { get; set; } // Required if DeliveryMethod = Delivery
-        
-        public string? DeliveryPhone { get; set; } // Required if DeliveryMethod = Delivery
-        
-        public string? Notes { get; set; }
-        
-        public int? VoucherId { get; set; }
-        
-        public int? LoyaltyPointsUsed { get; set; }
-    }
-
-    public class OrderItemDto
-    {
-        [Required]
-        public int ProductId { get; set; }
-        
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int Quantity { get; set; }
-    }
-
     public class OrderDto
     {
         public int Id { get; set; }
@@ -45,8 +11,8 @@ namespace BarberShopApi.DTOs
         public decimal? DiscountAmount { get; set; }
         public int? LoyaltyPointsUsed { get; set; }
         public int? LoyaltyPointsEarned { get; set; }
-        public string PaymentMethod { get; set; } = string.Empty;
-        public string DeliveryMethod { get; set; } = string.Empty;
+        public string? PaymentMethod { get; set; }
+        public string? DeliveryMethod { get; set; }
         public int? BranchId { get; set; }
         public string? DeliveryAddress { get; set; }
         public string? DeliveryPhone { get; set; }
@@ -54,6 +20,31 @@ namespace BarberShopApi.DTOs
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<OrderItemDetailDto> OrderItems { get; set; } = new List<OrderItemDetailDto>();
+    }
+
+    public class CreateOrderDto
+    {
+        [Required]
+        public List<CreateOrderItemDto> OrderItems { get; set; } = new List<CreateOrderItemDto>();
+        
+        public string? PaymentMethod { get; set; }
+        public string? DeliveryMethod { get; set; }
+        public int? BranchId { get; set; }
+        public string? DeliveryAddress { get; set; }
+        public string? DeliveryPhone { get; set; }
+        public int? VoucherId { get; set; }
+        public int? LoyaltyPointsUsed { get; set; }
+        public string? Notes { get; set; }
+    }
+
+    public class CreateOrderItemDto
+    {
+        [Required]
+        public int ProductId { get; set; }
+        
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int Quantity { get; set; }
     }
 
     public class OrderItemDetailDto
@@ -66,6 +57,17 @@ namespace BarberShopApi.DTOs
         public decimal UnitPrice { get; set; }
         public decimal? DiscountAmount { get; set; }
         public decimal TotalPrice { get; set; }
+    }
+
+    public class BranchDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
+        public string? Description { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class VNPayPaymentRequestDto
@@ -93,16 +95,5 @@ namespace BarberShopApi.DTOs
         public string vnp_ResponseCode { get; set; } = string.Empty;
         public string vnp_TransactionStatus { get; set; } = string.Empty;
         public string vnp_SecureHash { get; set; } = string.Empty;
-    }
-
-    public class BranchDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public string? Description { get; set; }
-        public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; }
     }
 }

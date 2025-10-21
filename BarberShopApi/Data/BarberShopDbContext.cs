@@ -31,6 +31,9 @@ namespace BarberShopApi.Data
         public DbSet<UserVoucher> UserVouchers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -196,6 +199,32 @@ namespace BarberShopApi.Data
                 new Product { Id = 2, Name = "Gel Tạo Kiểu Gatsby", Description = "Gel tạo kiểu tóc nam cao cấp", Price = 80000, StockQuantity = 30, CategoryId = 3, CreatedAt = DateTime.UtcNow },
                 new Product { Id = 3, Name = "Kéo Cắt Tóc Chuyên Nghiệp", Description = "Kéo cắt tóc chất lượng cao", Price = 500000, StockQuantity = 10, CategoryId = 4, CreatedAt = DateTime.UtcNow }
             );
+
+            // Cart configuration
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // CartItem configuration
+            modelBuilder.Entity<CartItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ProductPrice).HasPrecision(18, 2);
+                entity.Property(e => e.ProductDiscountPrice).HasPrecision(18, 2);
+                entity.HasOne(e => e.Cart)
+                    .WithMany(e => e.CartItems)
+                    .HasForeignKey(e => e.CartId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(e => e.Product)
+                    .WithMany()
+                    .HasForeignKey(e => e.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
             // Seed Vouchers
             modelBuilder.Entity<Voucher>().HasData(
